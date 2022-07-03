@@ -4,16 +4,16 @@ const IMAGE_TYPE = 'photo';
 const ORIENTATION = 'horizontal';
 const SAFE_SEARCH = 'true';
 
-export function fetchImagesAPI(searchQuery, page, perPage) {
+export const fetchImagesAPI = async (searchQuery, page, perPage) => {
   const url = `${BASE_URL}?key=${KEY}&q=${searchQuery}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION}&safesearch=${SAFE_SEARCH}&page=${page}&per_page=${perPage}`;
 
-  return fetch(url).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
+  const response = await fetch(url);
 
-    return Promise.reject(
-      new Error(`There is no images with "${searchQuery}" query`)
-    );
-  });
-}
+  if (response.ok) {
+    return response.json();
+  }
+
+  return Promise.reject(
+    new Error(`There is no images with "${searchQuery}" query`)
+  );
+};

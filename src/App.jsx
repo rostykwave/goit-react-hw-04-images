@@ -1,7 +1,6 @@
 import { Searchbar } from './components/Searchbar/Searchbar';
 import 'react-toastify/dist/ReactToastify.css';
 import { Box } from 'styleConfig/Box';
-// import { Component } from 'react';
 import { fetchImagesAPI } from 'services/pixabay-api';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { useState } from 'react';
@@ -27,55 +26,40 @@ export const App = () => {
       setSearchQuery(CurrentSearchQuery);
       setPage(1);
       setImages([]);
-      // this.setState({ searchQuery, page: 1, images: [] });
     }
   };
 
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
-    // this.setState(state => ({ page: state.page + 1 }));
   };
 
   useEffect(() => {
-    // fetchImages();
-    const perPage = 12;
-    console.log('fetch');
-
-    searchQuery && fetchImages();
-
     async function fetchImages() {
       try {
-        // const { searchQuery, page } = this.state;
         setStatus(Status.PENDING);
-        // this.setState({ status: Status.PENDING });
-        await fetchImagesAPI(searchQuery, page, perPage).then(data => {
-          // console.log(data);
-          const images = data.hits;
+        const data = await fetchImagesAPI(searchQuery, page, perPage);
+        // console.log(data);
+        const images = data.hits;
 
-          if (images.length === 0) {
-            throw Error('There is no images found on this search result');
-          }
-          const totalHits = data.totalHits;
-          const currentLeftPages = Math.ceil(totalHits / perPage) - page;
+        if (images.length === 0) {
+          throw Error('There is no images found on this search result');
+        }
+        const totalHits = data.totalHits;
+        const currentLeftPages = Math.ceil(totalHits / perPage) - page;
 
-          setImages(prevImages => [...prevImages, ...images]);
-          setStatus(Status.RESOLVED);
-          setLeftPages(currentLeftPages);
-        });
-
-        // this.setState(prevState => {
-        //   return {
-        //     images: [...prevState.images, ...images],
-        //     status: Status.RESOLVED,
-        //     leftPages,
-        //   };
-        // });
+        setImages(prevImages => [...prevImages, ...images]);
+        setStatus(Status.RESOLVED);
+        setLeftPages(currentLeftPages);
       } catch (error) {
         setError(error);
         setStatus(Status.REJECTED);
-        // this.setState({ error, status: Status.REJECTED });
       }
     }
+
+    const perPage = 12;
+    // console.log('fetch');
+
+    searchQuery && fetchImages();
   }, [searchQuery, page]);
 
   return (
