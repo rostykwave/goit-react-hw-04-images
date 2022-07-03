@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { MdOutlineSearch } from 'react-icons/md';
@@ -10,47 +9,40 @@ import {
   SearchForm,
 } from './Searchbar.styled';
 
-export class Searchbar extends Component {
-  state = {
-    searchQuery: '',
-  };
-
-  handleChange = e => {
-    this.setState({ searchQuery: e.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = e => {
+export const Searchbar = ({ onSubmit }) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.searchQuery.trim() === '') {
-      return toast.error('Enter your query in searchfield');
+    const searchQuery = e.target.elements.searchQuery.value
+      .toLowerCase()
+      .trim();
+
+    if (searchQuery === '') {
+      return toast.error('Enter your query in search field');
     }
 
-    this.props.onSubmit(this.state.searchQuery);
+    onSubmit(searchQuery);
   };
 
-  render() {
-    return (
-      <Header>
-        <SearchForm onSubmit={this.handleSubmit}>
-          <SearchButton type="submit">
-            <MdOutlineSearch size={22} />
-            <Label>Search</Label>
-          </SearchButton>
+  return (
+    <Header>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchButton type="submit">
+          <MdOutlineSearch size={22} />
+          <Label>Search</Label>
+        </SearchButton>
 
-          <Input
-            onChange={this.handleChange}
-            name="searchQuery"
-            type="text"
-            autocomplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </SearchForm>
-      </Header>
-    );
-  }
-}
+        <Input
+          name="searchQuery"
+          type="text"
+          autocomplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </SearchForm>
+    </Header>
+  );
+};
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
