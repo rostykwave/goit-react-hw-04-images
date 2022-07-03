@@ -8,10 +8,12 @@ const modalRoot = document.querySelector('#modal-root');
 export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
+    // console.log('componentDidMount');
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
+    // console.log('componentWillUnmount');
   }
 
   handleKeyDown = e => {
@@ -23,6 +25,8 @@ export class Modal extends Component {
   handleOverlayClick = e => {
     if (e.currentTarget === e.target) {
       this.props.onClose();
+      console.log('overlay clicked');
+      // console.log(this.props);
     }
   };
 
