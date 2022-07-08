@@ -14,18 +14,15 @@ export const Modal = ({ children, onClose }) => {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    console.log('componentDidMount');
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      console.log('componentWillUnmount');
     };
   }, [onClose]);
 
   const handleOverlayClick = e => {
     if (e.currentTarget === e.target) {
       onClose();
-      console.log(onClose);
-      console.log('overlay clicked');
     }
   };
 

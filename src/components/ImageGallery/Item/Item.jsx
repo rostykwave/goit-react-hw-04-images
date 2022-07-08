@@ -1,19 +1,19 @@
-import { Modal } from 'components/Modal/Modal';
-import { useModal } from 'hooks';
 import PropTypes from 'prop-types';
 import { StyledImage, StyledItem } from './Item.styled';
 
-export const Item = ({ webformatURL, largeImageURL, imageAlt }) => {
-  const { isModalOpen, openModal, closeModal } = useModal();
+export const Item = ({
+  webformatURL,
+  largeImageURL,
+  imageAlt,
+  handleModalOpen,
+}) => {
+  const onGalleryItemClick = () => {
+    handleModalOpen({ url: largeImageURL, alt: imageAlt });
+  };
 
   return (
-    <StyledItem onClick={openModal}>
+    <StyledItem onClick={onGalleryItemClick}>
       <StyledImage src={webformatURL} alt={imageAlt} />
-      {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <img src={largeImageURL} alt={imageAlt} />
-        </Modal>
-      )}
     </StyledItem>
   );
 };

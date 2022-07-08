@@ -57,7 +57,6 @@ export const App = () => {
     }
 
     const perPage = 12;
-    // console.log('fetch');
 
     searchQuery && fetchImages();
   }, [searchQuery, page]);
